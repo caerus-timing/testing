@@ -2,7 +2,10 @@ import serial
 import serial.tools.list_ports
 import time
 
-port = serial.tools.list_ports.comports()[0].device
+for comport in list(serial.tools.list_ports.comports()):
+    if "FTDI" in comport[2]:
+        #Assumption: this is the only FTDI device
+        port = comport[0]
 ser = serial.Serial(port, baudrate=115200, timeout=1)
 
 ch_signal = ([0] * 521) + [1, 0, 1] + ([1] * 521)
